@@ -1,11 +1,12 @@
 import React from 'react';
 
 import Aux from '../../hoc/Auxiliary';
+import classes from './Layout.css';
 
 const layout = (props) => (
     <Aux>
         <div>Tollbar, SideDrawer, Backdrop</div>
-        <main>
+        <main className={classes.Content}>
             {props.children}
         </main>
     </Aux>
