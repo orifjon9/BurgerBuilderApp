@@ -11,7 +11,7 @@ const controls = [
 ];
 
 const buildControls = (props) => {
-    
+
     const purchaseable = Object.values(props.disabled).reduce((prev, curr) => {
         return prev || !curr;
     }, false);
@@ -30,7 +30,8 @@ const buildControls = (props) => {
         }
         <button
             className={classes.OrderButton}
-            disabled={!purchaseable}>ORDER NOW</button>
+            disabled={!purchaseable}
+            onClick={props.ordered} >ORDER NOW</button>
     </div>
 };
 
