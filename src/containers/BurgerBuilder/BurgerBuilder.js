@@ -93,7 +93,10 @@ class BurgerBuilder extends Component {
                 console.log(response);
             })
             .catch(error => console.log(error))
-            .finally(() => this.setState({ loading: false, purchasing: false }));
+            .finally(() => {
+                this.setState({ loading: false, purchasing: false });
+                this.props.history.push('/checkout');
+            });
     };
 
     render() {

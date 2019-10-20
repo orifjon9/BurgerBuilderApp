@@ -7,7 +7,7 @@ import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends React.Component {
     state = {
-        showSideDrawer: true
+        showSideDrawer: false
     };
 
     closeSideDrawerHandler = () => {
@@ -29,7 +29,7 @@ class Layout extends React.Component {
             <main className={classes.Content}>
                 {this.props.children}
             </main>
-        </Aux >)
+        </Aux>)
     }
 }
 
