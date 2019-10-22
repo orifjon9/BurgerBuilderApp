@@ -9,11 +9,73 @@ import classes from './ContactData.css';
 
 class ContactData extends Component {
     state = {
-        name: null,
-        email: null,
-        address: {
-            street: null,
-            zipCode: null
+        orderForm: {
+            name: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name'
+                },
+                value: ''
+            },
+            email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your E-mail'
+                },
+                value: ''
+            },
+            street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: ''
+            },
+            house: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'House'
+                },
+                value: ''
+            },
+            state: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'State'
+                },
+                value: ''
+            },
+            zipCode: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Zip code'
+                },
+                value: ''
+            },
+            country: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Country'
+                },
+                value: ''
+            },
+            deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    options: [
+                        { value: 'fastest', displayValue: 'Fastest' },
+                        { value: 'cheapest', displayValue: 'Cheapest' }
+                    ]
+                },
+                value: ''
+            },
         },
         loading: false
     }
@@ -36,7 +98,6 @@ class ContactData extends Component {
                     zipCode: '84848',
                     country: 'USA'
                 }
-
             },
             deliveryMethod: 'Faster',
             createdOn: new Date().toLocaleDateString()
@@ -54,26 +115,32 @@ class ContactData extends Component {
     }
 
     render() {
+        let formElementsArray = [];
+        for (let key in this.state.orderForm) {
+            formElementsArray.push({
+                id: key,
+                config: this.state.orderForm[key]
+            });
+        }
+
         let form = (
             <form>
-                <Input inputtype="input" type="text" name="name" placeholder="Your Name" />
-                <Input inputtype="input" type="text" name="email" placeholder="Your Email" />
-                <Input inputtype="input" type="text" name="street" placeholder="Street" />
-                <Input inputtype="input" type="text" name="zipCode" placeholder="Zip code" />
-
+                {
+                    formElementsArray.map(elm => <Input key={elm.id} name={elm.id} inputElement={elm.config.elementType} elementConfig={elm.config.elementConfig} value={elm.config.value} />)
+                }
                 <Button
                     btnType="Success"
                     clicked={this.orderHandler}>Order</Button>
             </form>);
 
-        if(this.state.loading){
+        if (this.state.loading) {
             form = <Spinner />
         }
 
         return (
             <div className={classes.ContactData}>
                 <h4>Enter your contact data</h4>
-                { form }
+                {form}
             </div>
         );
     }
