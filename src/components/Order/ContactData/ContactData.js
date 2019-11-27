@@ -103,15 +103,14 @@ class ContactData extends Component {
                         { value: 'fastest', displayValue: 'Fastest' },
                         { value: 'cheapest', displayValue: 'Cheapest' }
                     ],
-                    validation: {
-                        required: true
-                    }
+                    validation: {}
                 },
-                value: '',
-                valid: false
+                value: 'cheapest',
+                valid: true
             },
         },
-        loading: false
+        loading: false,
+        formIsValid: false
     }
 
     orderHandler = (event) => {
@@ -154,8 +153,16 @@ class ContactData extends Component {
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.elementConfig.validation);
         updatedOrderForm[inputIdentifier] = updatedFormElement;
-        console.log(updatedFormElement);
-        this.setState({ orderForm: updatedOrderForm });
+        let formIsValid = true;
+
+        for(let formElementKey in updatedOrderForm){
+            if(updatedOrderForm[formElementKey].valid === false) {
+                formIsValid = false;
+                break;
+            }
+        }
+
+        this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
     }
 
     checkValidity(value, rules) {
@@ -180,7 +187,7 @@ class ContactData extends Component {
         for (let key in this.state.orderForm) {
             formElementsArray.push({
                 id: key,
-                config: this.state.orderForm[key]
+                config: this.state.orderForm[key],
             });
         }
 
@@ -193,10 +200,12 @@ class ContactData extends Component {
                         elementType={elm.config.elementType}
                         elementConfig={elm.config.elementConfig}
                         value={elm.config.value}
+                        invalid={!elm.config.valid}
                         changed={(event) => this.inputChangedHandler(event, elm.id)} />)
                 }
                 <Button
                     btnType="Success"
+                    disabled={!this.state.formIsValid}
                     clicked={this.orderHandler}>Order</Button>
             </form>);
 
