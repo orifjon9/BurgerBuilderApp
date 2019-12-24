@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from '../../../axios-orders';
+import { connect } from 'react-redux';
 
 import Button from '../../UI/Button/Button';
 import Spinner from '../../UI/Spinner/Spinner';
 import Input from '../../UI/Input/Input';
 import classes from './ContactData.css';
+
 
 class ContactData extends Component {
     state = {
@@ -124,8 +126,8 @@ class ContactData extends Component {
         }
 
         const order = {
-            ingredients: this.props.ingredients,
-            price: 10, // just for now. It will get actual a price soon
+            ingredients: this.props.ings,
+            price: this.props.price,
             orderData: formData,
             createdOn: new Date().toLocaleDateString()
         };
@@ -137,7 +139,7 @@ class ContactData extends Component {
             .catch(error => console.log(error))
             .finally(() => {
                 this.setState({ loading: false });
-                this.props.history.push('/thank-you');
+                this.props.history.push('/orders');
             });
     }
 
@@ -222,4 +224,11 @@ class ContactData extends Component {
     }
 }
 
-export default withRouter(ContactData);
+const mapStateToProps = state => {
+    return {
+        ings: state.ingredients,
+        price: state.totalPrice
+    }
+};
+
+export default connect(mapStateToProps)(withRouter(ContactData));

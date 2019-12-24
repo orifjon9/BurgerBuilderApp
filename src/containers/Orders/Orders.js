@@ -4,6 +4,7 @@ import Order from '../../components/Order/Order';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../components/UI/withErrorHandler/withErrorHandler';
+import order from '../../components/Order/Order';
 
 class Orders extends Component {
     state = {
@@ -23,6 +24,12 @@ class Orders extends Component {
                         id: key
                     });
                 }
+
+                orders = orders.sort((a, b) => 
+                {
+                    return new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime();
+                });
+
                 this.setState({ orders: orders, loading: false });
             }).catch(err => {
                 console.log(err);
