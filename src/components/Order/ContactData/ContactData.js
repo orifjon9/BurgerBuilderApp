@@ -7,6 +7,8 @@ import Button from '../../UI/Button/Button';
 import Spinner from '../../UI/Spinner/Spinner';
 import Input from '../../UI/Input/Input';
 import classes from './ContactData.css';
+import withErrorHandler from '../../UI/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions/index';
 
 
 class ContactData extends Component {
@@ -111,14 +113,11 @@ class ContactData extends Component {
                 valid: true
             },
         },
-        loading: false,
         formIsValid: false
     }
 
     orderHandler = (event) => {
         event.preventDefault();
-
-        this.setState({ loading: true });
 
         let formData = {};
         for (let formElmIdentifier in this.state.orderForm) {
@@ -132,15 +131,7 @@ class ContactData extends Component {
             createdOn: new Date().toLocaleDateString()
         };
 
-        axios.post('/orders.json', order)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => console.log(error))
-            .finally(() => {
-                this.setState({ loading: false });
-                this.props.history.push('/orders');
-            });
+        this.props.onOrderBurger(order);
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -211,7 +202,7 @@ class ContactData extends Component {
                     clicked={this.orderHandler}>Order</Button>
             </form>);
 
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />
         }
 
@@ -226,9 +217,16 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading
     }
 };
 
-export default connect(mapStateToProps)(withRouter(ContactData));
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderBurger: (orderData) => dispatch(actions.purchaseBurgerAsync(orderData))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

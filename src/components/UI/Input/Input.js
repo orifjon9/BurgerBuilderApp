@@ -36,7 +36,7 @@ const input = (props) => {
     }
 
     return (
-        <div key={props.key} className={classes.Input}>
+        <div className={classes.Input}>
             <label className={classes.Label}>{props.label}</label>
             {inputElement}
             {validateError}
