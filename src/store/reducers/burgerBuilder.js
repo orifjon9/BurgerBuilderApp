@@ -40,7 +40,7 @@ const reducer = (state = initialState, action) => {
                 error: false,
                 totalPrice: 3
             };
-        case actionTypes.FETCH_INGREDIENTS_FAILED: 
+        case actionTypes.FETCH_INGREDIENTS_FAILED:
             return {
                 ...state,
                 error: true
