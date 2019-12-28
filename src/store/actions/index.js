@@ -9,3 +9,8 @@ export {
     purchaseInit,
     fetchOrdersAsync
 } from './order';
+
+export {
+    singInAsync,
+    singUpAsync
+} from './auth';

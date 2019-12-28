@@ -131,7 +131,7 @@ class ContactData extends Component {
             createdOn: new Date().toLocaleDateString()
         };
 
-        this.props.onOrderBurger(order);
+        this.props.onOrderBurger(order, this.props.token);
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -219,13 +219,14 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.token
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderBurger: (orderData) => dispatch(actions.purchaseBurgerAsync(orderData))
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurgerAsync(orderData, token))
     }
 };
 

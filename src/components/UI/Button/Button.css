@@ -8,22 +8,34 @@
     padding: 10px;
     margin: 10px;
     font-weight: bold;
+    min-width: 30%;
+    max-width: 60%;
 }
 
 .Button:first-of-type {
     margin-left: 0;
-    padding-left: 0;
 }
 
 .Button:disabled{
     color: #ccc;
     cursor: not-allowed;
+    border: 1px solid #ccc;
+    background-color: transparent;
 }
 
 .Success {
-    color: #5C9210;
+    color: white;
+    border: 1px solid green;
+    background-color: #5C9210;
 }
 
 .Danger {
-    color: #944317;
+    color: white;
+    border: 1px solid red;
+    background-color: red;
+}
+
+.Default {
+    color: green;
+    background-color: transparent;
 }
