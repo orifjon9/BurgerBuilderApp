@@ -1,6 +1,7 @@
 export {
     addIngredient,
     removeIngredient,
+    resetBurgerBuilder,
     initIngredientsAsync
 } from './burgerBuilder';
 
@@ -12,5 +13,7 @@ export {
 
 export {
     singInAsync,
-    singUpAsync
+    singUpAsync,
+    logOut,
+    checkAuthStatusAsync
 } from './auth';

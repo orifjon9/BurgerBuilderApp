@@ -34,6 +34,8 @@ const reducer = (state = initialState, action) => {
                 fetched: true,
                 orders: action.orders
             });
+        case actionTypes.RESET_FETCHED_ORDERS:
+            return updateObject(state, { fetched: false, orders: [] });
         default:
             return state;
     }

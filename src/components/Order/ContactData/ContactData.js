@@ -26,18 +26,6 @@ class ContactData extends Component {
                 value: '',
                 valid: false
             },
-            email: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'email',
-                    placeholder: 'Your E-mail',
-                    validation: {
-                        required: true
-                    }
-                },
-                value: '',
-                valid: false
-            },
             street: {
                 elementType: 'input',
                 elementConfig: {
@@ -119,7 +107,9 @@ class ContactData extends Component {
     orderHandler = (event) => {
         event.preventDefault();
 
-        let formData = {};
+        let formData = {
+            email: this.props.email
+        };
         for (let formElmIdentifier in this.state.orderForm) {
             formData[formElmIdentifier] = this.state.orderForm[formElmIdentifier].value;
         }
@@ -128,7 +118,8 @@ class ContactData extends Component {
             ingredients: this.props.ings,
             price: this.props.price,
             orderData: formData,
-            createdOn: new Date().toLocaleDateString()
+            createdOn: new Date().toLocaleDateString(),
+            userId: this.props.userId
         };
 
         this.props.onOrderBurger(order, this.props.token);
@@ -220,8 +211,10 @@ const mapStateToProps = state => {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
         loading: state.order.loading,
-        token: state.auth.token
-    }
+        token: state.auth.token,
+        userId: state.auth.userId,
+        email: state.auth.email
+    };
 };
 
 const mapDispatchToProps = dispatch => {

@@ -29,6 +29,12 @@ const fetchIngredientsFailed = () => {
     };
 };
 
+export const resetBurgerBuilder = () => {
+    return {
+        type: actionTypes.RESET_BURGER_BUILDER
+    };
+};
+
 export const initIngredientsAsync = () => {
     return dispatch => {
         axios.get('/ingredients.json')

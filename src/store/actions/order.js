@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
+import { resetBurgerBuilder } from './burgerBuilder';
 
 export const purchaseBurgerSuccess = (id, orderData) => {
     return {
@@ -34,6 +35,7 @@ export const purchaseBurgerAsync = (orderData, token) => {
         axios.post('/orders.json?auth=' + token, orderData)
             .then(response => {
                 dispatch(purchaseBurgerSuccess(response.data.name, orderData));
+                dispatch(resetBurgerBuilder());
             })
             .catch(error => {
                 dispatch(purchaseBurgerFail());
@@ -60,10 +62,17 @@ export const fetchOrdersFail = () => {
     };
 };
 
-export const fetchOrdersAsync = (token) => {
+export const resetFetchedOrders = () => {
+    return {
+        type: actionTypes.RESET_FETCHED_ORDERS
+    };
+};
+
+export const fetchOrdersAsync = (token, userId) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
-        axios.get('/orders.json?auth=' + token)
+        const queryParams = `?auth=${token}&orderBy="userId"&equalTo="${userId}"`;
+        axios.get('/orders.json' + queryParams)
             .then(res => {
                 let orders = [];
                 for (let key in res.data) {
