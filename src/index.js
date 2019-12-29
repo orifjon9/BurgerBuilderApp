@@ -16,10 +16,7 @@ import authReducer from './store/reducers/auth';
 const logger = store => {
     return next => {
         return action => {
-            console.log('[Middleware] action state', action);
             const res = next(action);
-
-            console.log('[Middleware] store state', store.getState());
             return res;
         };
     };

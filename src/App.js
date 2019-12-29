@@ -14,7 +14,6 @@ class App extends React.Component {
 
   componentDidMount() {
     if (!this.props.isAuthenticated) {
-      console.log('check auth');
       this.props.onAuthCheckStatus();
     }
   }
