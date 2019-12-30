@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
-import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
+import asyncComponent from './hoc/asyncComponent/asyncComponent';
 
 class App extends React.Component {
 
@@ -19,9 +17,9 @@ class App extends React.Component {
   }
 
   routes = [
-    { path: "/checkout", component: Checkout, condition: () => this.props.isAuthenticated },
-    { path: "/orders", component: Orders, condition: () => this.props.isAuthenticated },
-    { path: "/auth", component: Auth, condition: () => !this.props.isAuthenticated },
+    { path: "/checkout", component: asyncComponent(() => import('./containers/Checkout/Checkout')), condition: () => this.props.isAuthenticated },
+    { path: "/orders", component: asyncComponent(() => import('./containers/Orders/Orders')), condition: () => this.props.isAuthenticated },
+    { path: "/auth", component: asyncComponent(() => import('./containers/Auth/Auth')), condition: () => !this.props.isAuthenticated },
     { path: "/logout", component: Logout, condition: () => this.props.isAuthenticated },
     { path: "/", component: BurgerBuilder, condition: () => true }
   ];
