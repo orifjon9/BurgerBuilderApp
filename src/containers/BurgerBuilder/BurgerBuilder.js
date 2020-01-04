@@ -10,11 +10,19 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../components/UI/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 import * as actions from '../../store/actions/index';
+import Transition from 'react-transition-group/Transition';
+import CSSTransition from 'react-transition-group/CSSTransition';
+
 
 export class BurgerBuilder extends Component {
     state = {
         purchasing: false
     }
+
+    anomationTiming = {
+        enter: 400,
+        exit: 1000
+    };
 
     componentDidMount() {
         if (!this.props.building) {
@@ -69,11 +77,26 @@ export class BurgerBuilder extends Component {
         }
 
         return <Aux>
-            <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-                {orderSummary}
-            </Modal>
+            <Transition 
+                mountOnEnter
+                unmountOnExit
+                in={this.state.purchasing} 
+                timeout={this.anomationTiming}
+                onEnter={()=>console.log('onEnter')}                
+                onEntering={()=>console.log('onEntering')}                
+                onEntered={()=>console.log('onEntered')}                
+                onExit={()=>console.log('onExit')}                
+                onExiting={()=>console.log('onExiting')}                
+                onExited={()=>console.log('onExited')}                
+                >
+                { state => (
+                    <Modal show={state} modalClosed={this.purchaseCancelHandler}>
+                        {orderSummary}
+                    </Modal>)
+                }
+            </Transition>
             {burger}
-        </Aux>
+        </Aux >
     };
 }
 
