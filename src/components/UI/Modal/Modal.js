@@ -20,7 +20,11 @@ class Modal extends React.Component {
     // }
 
     render() {
-        const cssClasses = [classes.Modal, (this.props.show === 'entering' || this.props.show === true ? classes.ModalOpen: (this.props.show === 'exiting' || this.props.show === false ? classes.ModalClosed : null))];
+        const cssClasses = [classes.Modal, (this.props.state === 'entering' ? classes.ModalOpen : (this.props.state === 'exiting' ? classes.ModalClosed : null))];
+        if (!this.props.show) {
+            return null;
+        }
+
         return (
             <Aux>
                 <Backdrop show={this.props.show} clicked={this.props.modalClosed} />

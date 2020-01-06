@@ -76,6 +76,7 @@ export class BurgerBuilder extends Component {
             />;
         }
 
+        console.log(this.state.purchasing);
         return <Aux>
             <Transition 
                 mountOnEnter
@@ -90,7 +91,7 @@ export class BurgerBuilder extends Component {
                 onExited={()=>console.log('onExited')}                
                 >
                 { state => (
-                    <Modal show={state} modalClosed={this.purchaseCancelHandler}>
+                    <Modal show={this.state.purchasing} state={state} modalClosed={this.purchaseCancelHandler}>
                         {orderSummary}
                     </Modal>)
                 }
