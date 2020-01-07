@@ -1,6 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
-import { resetFetchedOrders } from './order';
 
 export const authStart = () => {
     return {
@@ -30,80 +28,41 @@ export const logOut = () => {
     };
 };
 
-const checkExpirationTime = expirationTime => {
-    return dispatch => {
-        setTimeout(() => dispatch(logOut()), expirationTime * 1000);
+export const checkExpirationTime = expirationTime => {
+    return {
+        type: actionTypes.AUTH_CHECK_EXPIRATION_TIME,
+        expirationTime: expirationTime
     }
 }
 
 export const singUpAsync = (email, password) => {
-    return dispatch => {
-        dispatch(authStart());
-        const authBody = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        }
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDgP2G7P6qYh2FT14ZnPvMQMojsVgMu_TU', authBody)
-            .then(response => {
-                persistAuthRespose(response, dispatch);
-            })
-            .catch(error => {
-                dispatch(authFail(error.response.data.error.message));
-            });
-    };
+    return {
+        type: actionTypes.AUTH_SIGN_UP,
+        email: email,
+        password: password
+    }
 };
 
 export const singInAsync = (email, password) => {
-    return dispatch => {
-        dispatch(authStart());
-        const authBody = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        }
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDgP2G7P6qYh2FT14ZnPvMQMojsVgMu_TU', authBody)
-            .then(response => {
-                persistAuthRespose(response, dispatch);
-            })
-            .catch(error => {
-                dispatch(authFail(error.response.data.error.message));
-            });
+    return {
+        type: actionTypes.AUTH_SIGN_IN,
+        email: email,
+        password: password
     };
 };
 
-const persistAuthRespose = (response, dispatch) => {
-    let currectDate = new Date();
-    currectDate.setUTCSeconds(response.data.expiresIn);
-
-    const authData = {
+export const authRestoreResponse = (response) => {
+    return {
+        type: actionTypes.AUTH_RESTORE_RESPONSE,
         email: response.data.email,
-        token: response.data.idToken,
-        userId: response.data.localId,
-        expiresIn: currectDate
-    }
-    dispatch(authSuccess(authData.email, authData.token, authData.userId));
-    dispatch(resetFetchedOrders());
-    dispatch(checkExpirationTime(response.data.expiresIn));
-    setAuthDataToStore(authData);
-};
+        idToken: response.data.idToken,
+        localId: response.data.localId,
+        expiresIn: response.data.expiresIn
+    };
+}
 
 export const checkAuthStatusAsync = () => {
-    return dispatch => {
-        const storedAuthData = localStorage.getItem("auth");
-        if (storedAuthData) {
-            const authData = JSON.parse(storedAuthData);
-            const expireDate = new Date(authData.expiresIn);
-            if (expireDate > (new Date())) {
-                dispatch(authSuccess(authData.email, authData.token, authData.userId));
-                dispatch(checkExpirationTime((expireDate - (new Date())) / 1000));
-            } else {
-                dispatch(logOut());
-            }
-        }
-    }
-};
-
-const setAuthDataToStore = authData => {
-    localStorage.setItem("auth", JSON.stringify(authData));
+    return {
+        type: actionTypes.AUTH_CHECK_TOKEN
+    };
 };

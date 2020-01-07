@@ -8,12 +8,18 @@ export {
 export {
     purchaseBurgerAsync,
     purchaseInit,
-    fetchOrdersAsync
+    fetchOrdersAsync,
+    resetFetchedOrders
 } from './order';
 
 export {
     singInAsync,
     singUpAsync,
     logOut,
-    checkAuthStatusAsync
+    checkAuthStatusAsync,
+    authStart,
+    authFail,
+    authSuccess,
+    checkExpirationTime,
+    authRestoreResponse
 } from './auth';
