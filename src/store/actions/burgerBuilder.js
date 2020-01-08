@@ -16,14 +16,14 @@ export const removeIngredient = (ingName) => {
     };
 };
 
-const setIngredients = ingredients => {
+export const setIngredients = ingredients => {
     return {
         type: actionTypes.SET_INGREDIENTS,
         ingredients: ingredients
     };
 };
 
-const fetchIngredientsFailed = () => {
+export const fetchIngredientsFailed = () => {
     return {
         type: actionTypes.FETCH_INGREDIENTS_FAILED
     };
@@ -35,16 +35,8 @@ export const resetBurgerBuilder = () => {
     };
 };
 
-export const initIngredientsAsync = () => {
-    return dispatch => {
-        axios.get('/ingredients.json')
-            .then(response => {
-                if (response && response.data) {
-                    dispatch(setIngredients(response.data));
-                }
-            })
-            .catch(err => {
-                dispatch(fetchIngredientsFailed());
-            });
+export const initIngredients = () => {
+    return {
+        type: actionTypes.INIT_INGREDIENTS
     }
 };
