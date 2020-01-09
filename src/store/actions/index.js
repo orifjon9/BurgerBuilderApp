@@ -8,10 +8,16 @@ export {
 } from './burgerBuilder';
 
 export {
-    purchaseBurgerAsync,
+    purchaseBurger,
     purchaseInit,
-    fetchOrdersAsync,
-    resetFetchedOrders
+    fetchOrders,
+    resetFetchedOrders,
+    purchaseBurgerStart,
+    purchaseBurgerSuccess,
+    purchaseBurgerFail,
+    fetchOrdersStart,
+    fetchOrdersSuccess,
+    fetchOrdersFail
 } from './order';
 
 export {
