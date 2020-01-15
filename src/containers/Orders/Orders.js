@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Order from '../../components/Order/Order';
@@ -8,30 +8,27 @@ import withErrorHandler from '../../components/UI/withErrorHandler/withErrorHand
 import * as actions from '../../store/actions/index';
 import { Redirect } from 'react-router-dom';
 
-class Orders extends Component {
-
-    componentDidMount() {
-        if (this.props.token !== null && !this.props.fetchedOrders) {
-            this.props.onFetchOrders(this.props.token, this.props.userId);
+const Orders = props => {
+    useEffect(() => {
+        if (props.token !== null && !props.fetchedOrders) {
+            props.onFetchOrders(props.token, props.userId);
         }
+    }, []);
+
+    let orders = <Spinner />;
+    if (props.token === null) {
+        orders = <Redirect to="/" />;
+    } else if (props.orders && !props.loading) {
+        orders = props.orders.map(x => {
+            return <Order key={x.id} order={x} />
+        });
     }
 
-    render() {
-        let orders = <Spinner />;
-        if (this.props.token === null) {
-            orders = <Redirect to="/" />;
-        } else if (this.props.orders && !this.props.loading) {
-            orders = this.props.orders.map(x => {
-                return <Order key={x.id} order={x} />
-            });
-        }
-
-        return (
-            <div>
-                {orders}
-            </div>
-        );
-    }
+    return (
+        <div>
+            {orders}
+        </div>
+    );
 }
 
 const mapStateToProps = state => {
