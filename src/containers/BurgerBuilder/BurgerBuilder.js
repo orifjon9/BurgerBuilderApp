@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Aux from '../../hoc/Auxiliary/Auxiliary';
@@ -11,94 +11,89 @@ import withErrorHandler from '../../components/UI/withErrorHandler/withErrorHand
 import axios from '../../axios-orders';
 import * as actions from '../../store/actions/index';
 import Transition from 'react-transition-group/Transition';
-import CSSTransition from 'react-transition-group/CSSTransition';
+//import CSSTransition from 'react-transition-group/CSSTransition';
 
 
-export class BurgerBuilder extends Component {
-    state = {
-        purchasing: false
-    }
+export const BurgerBuilder = props => {
+    const [purchasing, setPurchasing] = useState(false);
 
-    anomationTiming = {
+    const anomationTiming = {
         enter: 400,
         exit: 1000
     };
 
-    componentDidMount() {
-        if (!this.props.building) {
-            this.props.onLoadIngredients();
+    useEffect(() => {
+        if (!props.building) {
+            props.onLoadIngredients();
         }
-    }
+    }, []);
 
-    purchaseHandler = () => {
-        if (this.props.isAuthenticated) {
-            this.setState({ purchasing: true });
+    const purchaseHandler = () => {
+        if (props.isAuthenticated) {
+            setPurchasing(true);
         } else {
-            this.props.history.push('/auth');
+            props.history.push('/auth');
         }
     };
 
-    purchaseCancelHandler = () => {
-        this.setState({ purchasing: false });
+    const purchaseCancelHandler = () => {
+        setPurchasing(false);
     }
 
-    purchaseContinueHandler = () => {
-        this.props.onPurchaseInit();
-        this.props.history.push("/checkout");
+    const purchaseContinueHandler = () => {
+        props.onPurchaseInit();
+        props.history.push("/checkout");
     };
 
-    render() {
-        const disabledInfo = { ...this.props.ings };
-        Object.keys(disabledInfo).forEach(key => {
-            disabledInfo[key] = (disabledInfo[key] === 0)
-        });
+    const disabledInfo = { ...props.ings };
+    Object.keys(disabledInfo).forEach(key => {
+        disabledInfo[key] = (disabledInfo[key] === 0)
+    });
 
-        let orderSummary = null;
-        let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
+    let orderSummary = null;
+    let burger = props.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
 
-        if (this.props.ings) {
-            burger = <Aux>
-                <Burger ingredients={this.props.ings} />
-                <BuildControls
-                    ingredientAdded={this.props.onIngredientAdded}
-                    ingredientRemoved={this.props.onIngredientRemoved}
-                    disabled={disabledInfo}
-                    price={this.props.total}
-                    ordered={this.purchaseHandler}
-                    isAuth={this.props.isAuthenticated} />
-            </Aux>;
+    if (props.ings) {
+        burger = <Aux>
+            <Burger ingredients={props.ings} />
+            <BuildControls
+                ingredientAdded={props.onIngredientAdded}
+                ingredientRemoved={props.onIngredientRemoved}
+                disabled={disabledInfo}
+                price={props.total}
+                ordered={purchaseHandler}
+                isAuth={props.isAuthenticated} />
+        </Aux>;
 
-            orderSummary = <OrderSummary
-                ingredients={this.props.ings}
-                price={this.props.total}
-                purchaseCancelled={this.purchaseCancelHandler}
-                purchaseContinued={this.purchaseContinueHandler}
-            />;
-        }
+        orderSummary = <OrderSummary
+            ingredients={props.ings}
+            price={props.total}
+            purchaseCancelled={purchaseCancelHandler}
+            purchaseContinued={purchaseContinueHandler}
+        />;
+    }
 
-        console.log(this.state.purchasing);
-        return <Aux>
-            <Transition 
-                mountOnEnter
-                unmountOnExit
-                in={this.state.purchasing} 
-                timeout={this.anomationTiming}
-                onEnter={()=>console.log('onEnter')}                
-                onEntering={()=>console.log('onEntering')}                
-                onEntered={()=>console.log('onEntered')}                
-                onExit={()=>console.log('onExit')}                
-                onExiting={()=>console.log('onExiting')}                
-                onExited={()=>console.log('onExited')}                
-                >
-                { state => (
-                    <Modal show={this.state.purchasing} state={state} modalClosed={this.purchaseCancelHandler}>
-                        {orderSummary}
-                    </Modal>)
-                }
-            </Transition>
-            {burger}
-        </Aux >
-    };
+    return (<Aux>
+        <Transition
+            mountOnEnter
+            unmountOnExit
+            in={purchasing}
+            timeout={anomationTiming}
+            onEnter={() => console.log('onEnter')}
+            onEntering={() => console.log('onEntering')}
+            onEntered={() => console.log('onEntered')}
+            onExit={() => console.log('onExit')}
+            onExiting={() => console.log('onExiting')}
+            onExited={() => console.log('onExited')}
+        >
+            {state => (
+                <Modal show={purchasing} state={state} modalClosed={purchaseCancelHandler}>
+                    {orderSummary}
+                </Modal>)
+            }
+        </Transition>
+        {burger}
+    </Aux >);
 }
 
 const mapStateToProps = state => {

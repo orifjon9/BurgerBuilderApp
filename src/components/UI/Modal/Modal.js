@@ -13,28 +13,26 @@ import Backdrop from '../Backdrop/Backdrop';
 // Animating Route Animations: https://github.com/maisano/react-router-transition
 
 
-class Modal extends React.Component {
+const Modal = props => {
 
     // shouldComponentUpdate(nextProps, nextState) {
     //     return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
     // }
 
-    render() {
-        const cssClasses = [classes.Modal, (this.props.state === 'entering' ? classes.ModalOpen : (this.props.state === 'exiting' ? classes.ModalClosed : null))];
-        if (!this.props.show) {
+        const cssClasses = [classes.Modal, (props.state === 'entering' ? classes.ModalOpen : (props.state === 'exiting' ? classes.ModalClosed : null))];
+        if (!props.show) {
             return null;
         }
 
         return (
             <Aux>
-                <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
+                <Backdrop show={props.show} clicked={props.modalClosed} />
                 <div
                     className={cssClasses.join(' ')}>
-                    {this.props.children}
+                    {props.children}
                 </div>
             </Aux>
         );
-    }
 }
 
-export default Modal;
+export default React.memo(Modal, (prevProps, nextProps) => nextProps.show !== prevProps.show || nextProps.children !== prevProps.children);
