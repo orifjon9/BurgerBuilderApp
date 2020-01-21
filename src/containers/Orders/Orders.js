@@ -9,11 +9,12 @@ import * as actions from '../../store/actions/index';
 import { Redirect } from 'react-router-dom';
 
 const Orders = props => {
+    const { token, userId, fetchedOrders, onFetchOrders } = props;
     useEffect(() => {
-        if (props.token !== null && !props.fetchedOrders) {
-            props.onFetchOrders(props.token, props.userId);
+        if (token !== null && !fetchedOrders) {
+            onFetchOrders(token, userId);
         }
-    }, []);
+    }, [token, userId, fetchedOrders, onFetchOrders]);
 
     let orders = <Spinner />;
     if (props.token === null) {

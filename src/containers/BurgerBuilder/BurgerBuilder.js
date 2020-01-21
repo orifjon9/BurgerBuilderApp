@@ -22,11 +22,13 @@ export const BurgerBuilder = props => {
         exit: 1000
     };
 
+    const { building, onLoadIngredients } = props;
+
     useEffect(() => {
-        if (!props.building) {
-            props.onLoadIngredients();
+        if (!building) {
+            onLoadIngredients();
         }
-    }, []);
+    }, [building, onLoadIngredients]);
 
     const purchaseHandler = () => {
         if (props.isAuthenticated) {

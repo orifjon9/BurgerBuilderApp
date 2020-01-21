@@ -9,11 +9,13 @@ import * as actions from './store/actions/index';
 
 // React component names must always start with a non-lowercase letter
 const App = props => {
+  const { isAuthenticated, onAuthCheckStatus } = props;
+
   useEffect(() => {
-    if (!props.isAuthenticated) {
-      props.onAuthCheckStatus();
+    if (!isAuthenticated) {
+      onAuthCheckStatus();
     }
-  }, []);
+  }, [isAuthenticated, onAuthCheckStatus]);
 
   let routes = [
     { path: "/checkout", component: React.lazy(() => import('./containers/Checkout/Checkout')), condition: () => props.isAuthenticated },
