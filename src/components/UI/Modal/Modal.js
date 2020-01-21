@@ -21,6 +21,7 @@ const Modal = props => {
 
         const cssClasses = [classes.Modal, (props.state === 'entering' ? classes.ModalOpen : (props.state === 'exiting' ? classes.ModalClosed : null))];
         if (!props.show) {
+            console.log('return null');
             return null;
         }
 
