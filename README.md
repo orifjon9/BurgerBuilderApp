@@ -66,3 +66,39 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## Source & Documentations
+
+https://reactjs.org/
+https://react.rocks/
+https://github.com/facebook/react
+
+### Static pages with React
+
+Next.js
+Gatsby.js
+
+### Redux
+
+Redux Saga: Full Documentation => https://redux-saga.js.org/
+Advanced Concepts: https://redux-saga.js.org/docs/advanced/
+API Reference: https://redux-saga.js.org/docs/api/
+Pros & Cons for Redux Saga vs Thunks: https://stackoverflow.com/questions/34930735/pros-cons-of-using-redux-saga-with-es6-generators-vs-redux-thunk-with-es2017-asy/34933395
+
+### Style
+
+Bootstrap React https://react-bootstrap.github.io/
+Build design with Google Materials https://material-ui.com/
+
+### Animations
+More on CSS Transitions: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions
+More on CSS Animations: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations
+More on ReactTransitionGroup: https://github.com/reactjs/react-transition-group
+Alternative => React Motion: https://github.com/chenglou/react-motion
+Alternative => React Move: https://github.com/react-tools/react-move
+Animating Route Animations: https://github.com/maisano/react-router-transition
+
+### build iOS and Android app with React Native
+
+https://facebook.github.io/react-native/
+https://github.com/facebook/react-native
